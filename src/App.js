@@ -1,15 +1,10 @@
 import React from 'react';
-import FormComponent from './components/FormComponent';
-import ListComponent from './components/ListComponent';
-import { Container } from "reactstrap";
+import AppComponent from './components/AppComponent';
 
 function App() {
   return (
     <div className="App">
-      <Container >
-        <FormComponent />
-        <ListComponent />
-      </Container>
+      <AppComponent />
     </div>
   );
 }
