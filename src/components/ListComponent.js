@@ -13,14 +13,15 @@ export default class ListComponent extends Component {
 
     this.editButton = this.editButton.bind(this);
     this.deleteButton = this.deleteButton.bind(this);
+    this.refreshButton = this.refreshButton.bind(this);
   }
 
   editButton = function(event){
     let index = event.target.dataset.id,
       datas = this.props.data.data[index];
-      console.log(datas);
     datas['checked'] = (datas.status == 1?true:false);
     datas['postId'] = datas.id;
+      console.log(datas);
     this.props.updateState(datas);
   }
 
@@ -41,11 +42,16 @@ export default class ListComponent extends Component {
       });
   }
 
+  refreshButton = function(event){
+    this.props.updateState({loading:true});
+    this.props.loadDatas();
+  }
+
   render() {
     return (
       <Row>
         <Col sm={12} lg={12} xl={12} className="text-right">
-          <Button outline color="warning" onClick={this.props.loadDatas.bind(this)}>Refresh</Button>
+          <Button outline color="warning" onClick={this.refreshButton}>Refresh</Button>
         </Col>
         <Col>
           <Table dark>
@@ -62,8 +68,8 @@ export default class ListComponent extends Component {
               {!this.props.data.loading?this.props.data.data.map((data,index) => {
                 const { id, nama, alamat, status } = data;
                 return (
-                  <tr>
-                    <td>{id}</td>
+                  <tr key={id.toString()}>
+                    <td>{id.toString()}</td>
                     <td>{nama}</td>
                     <td>{alamat}</td>
                     <td>{status==1?"Aktif":"Tidak Aktif"}</td>

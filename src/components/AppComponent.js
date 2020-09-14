@@ -7,8 +7,8 @@ export default class AppComponent extends Component {
     state = {
         nama: "",
         alamat: "",
-        status: 0,
-        checked: true,
+        status: false,
+        checked: false,
         postId: 0,
         loading: true,
         data: []
@@ -18,13 +18,12 @@ export default class AppComponent extends Component {
         super(props);
 
         this.loadDatas = this.loadDatas.bind(this);
+        this.updateData = this.updateData.bind(this);
         this.loadDatas();
     }
       
-    updateState = function(state){
-        this.setState(state);
-        // console.log(state);
-        // console.log(this);
+    updateState = function(st){
+        this.setState(st);
     }
 
     getState = function(){
@@ -32,18 +31,21 @@ export default class AppComponent extends Component {
     }
 
     loadDatas = function(){
-        let st = this;
-    
-        this.setState({loading: true});
-    
         const requestOptions = {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
         };
         fetch('http://localhost:8000/api/people/', requestOptions)
           .then(response => response.json())
-          .then(data => st.setState({data: data, loading: false}));
-      }
+          .then(data => this.updateData(data));
+    }
+
+    updateData = function(data){
+        console.log(this);
+        if(typeof this.context !== 'undefined'){
+            this.setState({data: data, loading: false});
+        }
+    }
 
     render() {
         return (
